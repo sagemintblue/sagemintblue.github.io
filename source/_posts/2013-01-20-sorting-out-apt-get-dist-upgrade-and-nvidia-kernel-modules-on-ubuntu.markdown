@@ -23,32 +23,39 @@ existing kernel modules to work with it. The nvidia driver / kernel module faile
 causing the display manager and X to enter some awful video mode. Looks like others have run into
 this issue before ([6], [7]). To get things back in order, I followed roughly these steps:
 
-1. Get to a shell on the machine (e.g. via ssh from another computer).
-
-1. Ensure [jockey-text] is available so you can control proprietary drivers (e.g. `nvidia-current`)
-   from the command line. If you don't have it, try installing one of [jockey]'s graphical front end
-   packages, for example: `sudo apt-get install jockey-gtk`
-
-1. Turn off the display manager (and X): `sudo stop lightdm`
-
-1. Turn off the nvidia module: `sudo dkms remove nvidia`
-
-1. Completely remove the nvidia driver package (in my case `nvidia-common`): `sudo apt-get remove
-   --purge nvidia-current`
-
-1. Make sure you have the latest headers with which to rebuild your driver kernel module: `sudo
-   apt-get install linux-headers-generic`
-
-1. Reinstall the driver package, causing a rebuild with current kernel: `sudo apt-get install
-   nvidia-current`
-
-1. Check to see if the driver was enabled during install: `sudo jockey-text -l`
-
-1. If necessary, enable the driver via: `sudo jockey-text -e kmod:nvidia-current`
-
-1. Reboot with `sudo shutdown -r now` and check `/var/logs/Xorg.0.log` and friends for errors.
-
 [6]: http://askubuntu.com/questions/173721/how-do-i-update-my-nvidia-modules-after-updating-my-kernel
 [7]: http://askubuntu.com/questions/37590/nvidia-drivers-not-working-after-upgrade-why-can-i-only-see-terminal
-[jockey]: https://launchpad.net/jockey
-[jockey-text]: https://help.ubuntu.com/community/BinaryDriverHowto/Nvidia#Installation_without_X_.2BAC8_from_the_console
+
+{% codeblock lang:sh %}
+# Get to a shell on the machine
+ssh yourbrokenbox
+
+# Ensure `jockey-text` is available so you can control proprietary drivers (e.g. `nvidia-current`)
+# from the command line. If you don't have it, try installing one of jockey's graphical front end
+# packages, for example:
+sudo apt-get install jockey-gtk
+
+# Turn off the display manager (and X)
+sudo stop lightdm
+
+# Turn off the nvidia module
+sudo dkms remove nvidia
+
+# Completely remove the nvidia driver package (in my case `nvidia-common`)
+sudo apt-get remove --purge nvidia-current
+
+# Make sure you have the latest headers with which to rebuild the driver
+sudo apt-get install linux-headers-generic
+
+# Reinstall and rebuild the driver with current kernel
+sudo apt-get install nvidia-current
+
+# Check to see if the driver was enabled during install
+sudo jockey-text -l
+
+# If necessary, enable the driver
+sudo jockey-text -e kmod:nvidia-current
+
+# Reboot and check `/var/logs/Xorg.0.log` and friends for errors
+sudo shutdown -r now
+{% endcodeblock %}
