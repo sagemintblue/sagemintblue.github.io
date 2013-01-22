@@ -14,7 +14,7 @@ I'm looking for a few ways around this:
 * An external editor (web-based or otherwise) which supports auto-conversion of [markdown] into html
   and uploads to WP.com.
 * Chrome extension or [userscript] to hack in an additional `ctrl-shift-c` keyboard shortcut for the
-[TinyMCE WYSIWYG editor][tinymce] used by WP.
+  [TinyMCE editor][tinymce] used by WP.
 
 Relevant links:
 
