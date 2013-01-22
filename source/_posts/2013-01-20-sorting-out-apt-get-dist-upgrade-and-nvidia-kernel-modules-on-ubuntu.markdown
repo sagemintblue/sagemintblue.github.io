@@ -41,7 +41,7 @@ sudo stop lightdm
 # Turn off the nvidia module
 sudo dkms remove nvidia
 
-# Completely remove the nvidia driver package (in my case `nvidia-common`)
+# Completely remove the nvidia driver package (in my case `nvidia-current`)
 sudo apt-get remove --purge nvidia-current
 
 # Make sure you have the latest headers with which to rebuild the driver
